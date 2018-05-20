@@ -1,74 +1,101 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:confirm, :edit, :update]
+  before_action :new_post, only: [:show, :new]
 
-  # GET /posts
-  # GET /posts.json
-  def index
-    @posts = Post.all
-  end
-
-  # GET /posts/1
-  # GET /posts/1.json
   def show
+    @post.id = params[:id]
+    render :new
   end
 
-  # GET /posts/new
   def new
-    @post = Post.new
   end
 
-  # GET /posts/1/edit
   def edit
   end
 
-  # POST /posts
-  # POST /posts.json
   def create
-    @post = Post.new(post_params)
-
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
-      else
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    @post = Post.new
+    if Post.last.present?
+      next_id = Post.last.id + 1
+    else
+      next_id = 1
+    end
+    make_picture(next_id)
+    if @post.save
+      redirect_to confirm_path(@post)
+    else
+      render :new
     end
   end
 
-  # PATCH/PUT /posts/1
-  # PATCH/PUT /posts/1.json
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
-      else
-        format.html { render :edit }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
-    end
+    make_picture(@post.id)
+    redirect_to confirm_path(@post)
   end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.json
-  def destroy
-    @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+  def confirm
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
+  def set_post
+    @post = Post.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def post_params
-      params.require(:post).permit(:picture, :seed1_id, :seed2_id)
+  def new_post
+    @post = Post.new
+  end
+
+  def make_picture(id)
+    @post.seed1_id = rand(Seed.last.id) + 1
+    @post.seed2_id = rand(Seed.last.id) + 1
+    while @post.seed1_id == @post.seed2_id
+      @post.seed2_id = rand(Seed.last.id + 1)
     end
+    sentense1 = @post.seed1.content + "\n\n" + @post.seed2.content
+    sentense2 = "×"
+    pointsize1 = 140
+    pointsize2 = 100
+    color1 = "yellow"
+    color2 = "white"
+    draw1 = "text 0,0 '#{sentense1}'"
+    draw2 = "text 0,0 '#{sentense2}'"
+    font = ".fonts/GenEiGothicN-U-KL.otf"
+    base = "app/assets/images/black.jpg"
+    image = MiniMagick::Image.open(base)
+    image.combine_options do |i|
+      i.font font
+      i.fill color1
+      i.gravity 'center'
+      i.pointsize pointsize1
+      i.draw draw1
+    end
+    image.combine_options do |i|
+      i.font font
+      i.fill color2
+      i.gravity 'center'
+      i.pointsize pointsize2
+      i.draw draw2
+    end
+    storage = Fog::Storage.new(
+      provider: 'AWS',
+      aws_access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
+      region: 'ap-northeast-1'
+    )
+    # ⑨-13 開発環境or本番環境でS3のバケット（フォルダのようなもの）を分ける
+    case Rails.env
+      when 'production'
+        bucket = storage.directories.get('ideatweet-production2')
+        png_path = 'images/' + id.to_s + '.png'
+        image_uri = image.path
+        file = bucket.files.create(key: png_path, public: true, body: open(image_uri))
+        @post.picture = 'https://s3-ap-northeast-1.amazonaws.com/ideatweet-production2' + "/" + png_path
+      when 'development'
+        bucket = storage.directories.get('ideatweet-development2')
+        png_path = 'images/' + id.to_s + '.png'
+        image_uri = image.path
+        file = bucket.files.create(key: png_path, public: true, body: open(image_uri))
+        @post.picture = 'https://s3-ap-northeast-1.amazonaws.com/ideatweet-development2' + "/" + png_path
+    end
+  end
 end
