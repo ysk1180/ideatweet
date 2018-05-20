@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  picture: MyString
+  seed1_id: 1
+  seed2_id: 1
+
+two:
+  picture: MyString
+  seed1_id: 1
+  seed2_id: 1
