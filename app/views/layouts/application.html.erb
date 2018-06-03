@@ -8,6 +8,10 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
+    <!-- ファビコン設定 -->
+    <%= favicon_link_tag %>
+
+    <!-- レスポンシブ対応 -->
     <meta name="viewport" content="width=device-width">
 
     <% twitter_card = get_twitter_card_info(@post ? @post : nil) %>

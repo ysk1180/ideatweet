@@ -1,13 +1,40 @@
-<h2>生成された画像の確認</h2>
-<div>
-  <%= image_tag @post.picture, width: '315' %>
-</div>
+<script>
+// 画像反映のためにJSでのリロード設定
+if (window.name != "xyz")
+{
+	location.reload(true);
+	window.name = "xyz";
+}
+onload=function(){
+  document.getElementById("button").onclick = function() {
+    window.name = "a";
+  };
+};
+</script>
 
-<h2>Step 3</h2>
-<a href="https://twitter.com/share?url=https://ideatweet.herokuapp.com/posts/<%= @post.id %>&hashtags=ideatweet" target="_blank" class="square_btn" data-show-count="false">Twitter投稿へ</a>
 <div>
-  <%= link_to "画像編集へ戻る", edit_post_path(@post) %>
+  <%= image_tag 'top.png', width: '315' %>
+</div>
+<br>
+<h2>この組み合わせでアイデアが湧いてくる…！</h2>
+<div id="image_area">
+  <%= render partial: 'image', locals: { post: @post } %>
+</div>
+<br>
+<div id="button">
+  <%= link_to "組み合わせを変える", edit_post_path(@post), class: "square_btn" %>
+</div>
+<br>
+<div>
+  <p>ランダムに表示される2つのキーワードからアイデアを発想し、ツイートできるサービスです！</p>
 </div>
 <div>
-  <%= link_to "トップページへ", root_path %>
+  <a href="https://twitter.com/share?url=https://ideatweet.herokuapp.com/posts/<%= @post.id %>&hashtags=ideatweet" target="_blank" class="square_btn2" data-show-count="false">アイデアを記入してTwitter投稿へ</a>
+</div>
+<div>
+  <small class="text-muted">生成された画像はツイートに表示されます</small>
+</div>
+<br>
+<div>
+  <%= link_to "Twitter投稿後はこちらでリセット", root_path %>
 </div>

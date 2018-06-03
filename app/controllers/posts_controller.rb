@@ -4,13 +4,16 @@ class PostsController < ApplicationController
 
   def show
     @post.id = params[:id]
-    render :new
+    redirect_to root_path
   end
 
   def new
   end
 
   def edit
+    make_picture(@post.id)
+    @post.save
+    redirect_to confirm_path(@post)
   end
 
   def create
@@ -29,8 +32,8 @@ class PostsController < ApplicationController
   end
 
   def update
-    make_picture(@post.id)
-    redirect_to confirm_path(@post)
+    # make_picture(@post.id)
+    # redirect_to confirm_path(@post)
   end
 
   def confirm
@@ -49,7 +52,7 @@ class PostsController < ApplicationController
     @post.seed1_id = rand(Seed.last.id) + 1
     @post.seed2_id = rand(Seed.last.id) + 1
     while @post.seed1_id == @post.seed2_id
-      @post.seed2_id = rand(Seed.last.id + 1)
+      @post.seed2_id = rand(Seed.last.id) + 1
     end
     sentense1 = @post.seed1.content + "\n\n" + @post.seed2.content
     sentense2 = "×"
@@ -82,7 +85,6 @@ class PostsController < ApplicationController
       aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
       region: 'ap-northeast-1'
     )
-    # ⑨-13 開発環境or本番環境でS3のバケット（フォルダのようなもの）を分ける
     case Rails.env
       when 'production'
         bucket = storage.directories.get('ideatweet-production2')
