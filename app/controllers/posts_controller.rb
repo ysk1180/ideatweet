@@ -1,14 +1,10 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:confirm, :edit, :update]
-  before_action :new_post, only: [:show, :new]
+  before_action :set_post, only: [:confirm, :edit]
   @@show_post = 0
 
   def show
     @@show_post = params[:id]
     redirect_to root_path
-  end
-
-  def new
   end
 
   def edit
@@ -33,21 +29,12 @@ class PostsController < ApplicationController
     end
   end
 
-  def update
-    # make_picture(@post.id)
-    # redirect_to confirm_path(@post)
-  end
-
   def confirm
   end
 
   private
   def set_post
     @post = Post.find(params[:id])
-  end
-
-  def new_post
-    @post = Post.new
   end
 
   def make_picture(id)
