@@ -1,9 +1,10 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:confirm, :edit, :update]
   before_action :new_post, only: [:show, :new]
+  @@show_post = 0
 
   def show
-    @post.id = params[:id]
+    @@show_post = params[:id]
     redirect_to root_path
   end
 
@@ -18,6 +19,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new
+    @post.show_post = @@show_post
     if Post.last.present?
       next_id = Post.last.id + 1
     else
