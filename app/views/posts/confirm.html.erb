@@ -20,13 +20,13 @@ onload=function(){
 <div id="image_area">
   <%= render partial: 'image', locals: { post: @post } %>
 </div>
-<br>
+
 <div id="button">
   <%= link_to "組み合わせを変える", edit_post_path(@post), class: "square_btn" %>
 </div>
 <br>
 <div>
-  <p>ランダムに表示される2つのキーワードからアイデアを発想し、ツイートできるサービスです！</p>
+  <p><i>〜〜全てのアイデアは組み合わせ〜〜</i><br>ランダムに表示される2つのキーワードからアイデアを発想し、ツイートできるサービスです！</p>
 </div>
 <div>
   <a href="https://twitter.com/share?url=https://ideatweet.herokuapp.com/posts/<%= @post.id %>&hashtags=ideatweet" target="_blank" class="square_btn2" data-show-count="false">アイデアを記入してTwitter投稿へ</a>
@@ -37,4 +37,7 @@ onload=function(){
 <br>
 <div>
   <%= link_to "Twitter投稿後はこちらでリセット", root_path %>
+</div>
+<div>
+  <small class="text-muted">リセットしないとTwitterで表示される画像が変わってしまいます</small>
 </div>
