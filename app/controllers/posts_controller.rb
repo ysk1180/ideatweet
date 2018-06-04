@@ -29,7 +29,6 @@ class PostsController < ApplicationController
 
   def twitter
     make_picture(@post.id)
-    Launchy.open( "https://twitter.com/share?url=https://ideatweet.herokuapp.com/posts/#{ @post.id }&hashtags=ideatweet" )
     redirect_to root_path
   end
 

@@ -1,3 +1,10 @@
+<script>
+onload=function(){
+  document.getElementById("twitter_post").onclick = function() {
+    window.open( "https://twitter.com/share?url=https://ideatweet.herokuapp.com/posts/<%= @post.id %>&hashtags=ideatweet" );
+  };
+};
+</script>
 <div>
   <%= image_tag 'top.png', width: '315' %>
 </div>
@@ -14,8 +21,8 @@
 <div>
   <p><i>〜〜全てのアイデアは組み合わせ〜〜</i><br>ランダムに表示される2つのキーワードからアイデアを発想し、ツイートできるサービスです！</p>
 </div>
-<div>
-	<%= link_to "アイデアを記入してTwitter投稿へ", twitter_path(@post),class: "square_btn2" %>
+<div id="twitter_post">
+	<%= link_to "アイデアを記入してTwitter投稿へ", twitter_path(@post), class: "square_btn2" %>
 </div>
 <div>
   <small class="text-muted">生成された画像はツイートに表示されます</small>
