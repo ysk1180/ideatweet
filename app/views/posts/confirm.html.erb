@@ -1,9 +1,7 @@
 <script>
-onload=function(){
-  document.getElementById("twitter_post").onclick = function() {
-    window.open( "https://twitter.com/share?url=https://ideatweet.herokuapp.com/posts/<%= @post.id %>&hashtags=ideatweet" );
-  };
-};
+$(document).on('click', '#twitter_post', function(){
+  window.open( "https://twitter.com/share?url=https://ideatweet.herokuapp.com/posts/<%= @post.id %>&hashtags=ideatweet" );
+});
 </script>
 <div>
   <%= image_tag 'top.png', width: '315' %>
