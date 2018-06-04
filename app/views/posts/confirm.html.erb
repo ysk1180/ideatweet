@@ -1,17 +1,3 @@
-<script>
-// 画像反映のためにJSでのリロード設定
-if (window.name != "xyz")
-{
-	location.reload(true);
-	window.name = "xyz";
-}
-onload=function(){
-  document.getElementById("button").onclick = function() {
-    window.name = "a";
-  };
-};
-</script>
-
 <div>
   <%= image_tag 'top.png', width: '315' %>
 </div>
@@ -29,15 +15,8 @@ onload=function(){
   <p><i>〜〜全てのアイデアは組み合わせ〜〜</i><br>ランダムに表示される2つのキーワードからアイデアを発想し、ツイートできるサービスです！</p>
 </div>
 <div>
-  <a href="https://twitter.com/share?url=https://ideatweet.herokuapp.com/posts/<%= @post.id %>&hashtags=ideatweet" target="_blank" class="square_btn2" data-show-count="false">アイデアを記入してTwitter投稿へ</a>
+	<%= link_to "アイデアを記入してTwitter投稿へ", twitter_path(@post),class: "square_btn2" %>
 </div>
 <div>
   <small class="text-muted">生成された画像はツイートに表示されます</small>
-</div>
-<br>
-<div>
-  <%= link_to "Twitter投稿後はこちらでリセット", root_path %>
-</div>
-<div>
-  <small class="text-muted">リセットしないとTwitterで表示される画像が変わってしまいます</small>
 </div>

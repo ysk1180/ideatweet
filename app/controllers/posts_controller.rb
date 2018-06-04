@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:confirm, :edit]
+  before_action :set_post, only: [:confirm, :edit, :twitter]
   @@show_post = 0
 
   def show
@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-    make_picture(@post.id)
+    change_word
     @post.save
     redirect_to confirm_path(@post)
   end
@@ -16,12 +16,7 @@ class PostsController < ApplicationController
   def create
     @post = Post.new
     @post.show_post = @@show_post
-    if Post.last.present?
-      next_id = Post.last.id + 1
-    else
-      next_id = 1
-    end
-    make_picture(next_id)
+    change_word
     if @post.save
       redirect_to confirm_path(@post)
     else
@@ -32,17 +27,26 @@ class PostsController < ApplicationController
   def confirm
   end
 
+  def twitter
+    make_picture(@post.id)
+    Launchy.open( "https://twitter.com/share?url=https://ideatweet.herokuapp.com/posts/#{ @post.id }&hashtags=ideatweet" )
+    redirect_to root_path
+  end
+
   private
   def set_post
     @post = Post.find(params[:id])
   end
 
-  def make_picture(id)
+  def change_word
     @post.seed1_id = rand(Seed.last.id) + 1
     @post.seed2_id = rand(Seed.last.id) + 1
     while @post.seed1_id == @post.seed2_id
       @post.seed2_id = rand(Seed.last.id) + 1
     end
+  end
+
+  def make_picture(id)
     sentense1 = @post.seed1.content + "\n\n" + @post.seed2.content
     sentense2 = "×"
     pointsize1 = 140
