@@ -29,7 +29,7 @@ class PostsController < ApplicationController
 
   def twitter
     make_picture(@post.id)
-    redirect_to root_path
+    redirect_to root_path, notice: "Twitter投稿ありがとうございます！さらに色々な組み合わせを見てみましょう！"
   end
 
   private
