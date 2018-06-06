@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   resources :posts, only: [:create, :show, :edit]
   root to: "posts#create"
   get '/twitter/:id', to: 'posts#twitter', as: :twitter
+  post '/callback' => 'linebot#callback'
 end
