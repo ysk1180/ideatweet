@@ -26,17 +26,25 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          last_id = Seed.last.id
-          seed1_id = rand(last_id) + 1
-          seed2_id = rand(last_id) + 1
-          while seed1_id == seed2_id
+          if event.message['text'].include?('Twitter') ||  event.message['text'].include?('ツイッター')
+            message = {
+              type: 'text',
+              text: "ツイッターが含まれていたよ"
+              # text: event.message['text']
+            }
+          else
+            last_id = Seed.last.id
+            seed1_id = rand(last_id) + 1
             seed2_id = rand(last_id) + 1
+            while seed1_id == seed2_id
+              seed2_id = rand(last_id) + 1
+            end
+            message = {
+              type: 'text',
+              text: "#{Seed.find(seed1_id).content} × #{Seed.find(seed2_id).content} !!"
+              # text: event.message['text']
+            }
           end
-          message = {
-            type: 'text',
-            text: "#{Seed.find(seed1_id).content} × #{Seed.find(seed2_id).content} !!"
-            # text: event.message['text']
-          }
           client.reply_message(event['replyToken'], message)
         end
       end
