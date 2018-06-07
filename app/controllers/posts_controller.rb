@@ -32,6 +32,14 @@ class PostsController < ApplicationController
     redirect_to root_path, notice: "Twitter投稿ありがとうございます！さらに色々な組み合わせを見てみましょう！"
   end
 
+  def line
+    @post = Post.new
+    @post.seed1_id = params[:s1]
+    @post.seed2_id = params[:s2]
+    @post.save
+    redirect_to confirm_path(@post)
+  end
+
   private
   def set_post
     @post = Post.find(params[:id])

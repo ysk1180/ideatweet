@@ -44,7 +44,7 @@ class LinebotController < ApplicationController
               text: "#{Seed.find(seed1_id).content} × #{Seed.find(seed2_id).content} !!"
             },{
               type: 'text',
-              text: "Twitter投稿はこちらから→https://ideatweet.herokuapp.com/twitter/#{Post.last.id}"
+              text: "思いついたアイデアをアウトプットしてみよう！Twitter投稿はこちらから→https://ideatweet.herokuapp.com/line?s1=#{seed1_id}&s2=#{seed2_id}"
             }]
           end
           client.reply_message(event['replyToken'], message)
