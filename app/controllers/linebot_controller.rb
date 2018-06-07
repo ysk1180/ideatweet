@@ -26,14 +26,15 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          seed1_id = rand(Seed.last.id) + 1
-          seed2_id = rand(Seed.last.id) + 1
+          last_id = Seed.last.id
+          seed1_id = rand(last_id) + 1
+          seed2_id = rand(last_id) + 1
           while seed1_id == seed2_id
-            seed2_id = rand(Seed.last.id) + 1
+            seed2_id = rand(last_id) + 1
           end
           message = {
             type: 'text',
-            text: "#{seed1_id.content} × #{seed_2.content} !!"
+            text: "#{Seed.find(seed1_id).content} × #{Seed.find(seed1_id).content} !!"
             # text: event.message['text']
           }
           client.reply_message(event['replyToken'], message)

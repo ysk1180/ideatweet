@@ -38,10 +38,11 @@ class PostsController < ApplicationController
   end
 
   def change_word
-    @post.seed1_id = rand(Seed.last.id) + 1
-    @post.seed2_id = rand(Seed.last.id) + 1
+    last_id = Seed.last.id
+    @post.seed1_id = rand(last_id) + 1
+    @post.seed2_id = rand(last_id) + 1
     while @post.seed1_id == @post.seed2_id
-      @post.seed2_id = rand(Seed.last.id) + 1
+      @post.seed2_id = rand(last_id) + 1
     end
   end
 
