@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   root to: "posts#create"
   get '/twitter/:id', to: 'posts#twitter', as: :twitter
   post '/callback' => 'linebot#callback'
-  post '/line' => 'posts#line'
+  get '/line' => 'posts#line'
 end
