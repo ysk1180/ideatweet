@@ -34,8 +34,8 @@ class PostsController < ApplicationController
 
   def line
     @post = Post.new
-    @post.seed1_id = params[:s1]
-    @post.seed2_id = params[:s2]
+    @post.seed1_id = params[:s1].to_i
+    @post.seed2_id = params[:s2].to_i
     @post.save
     redirect_to confirm_path(@post)
   end
