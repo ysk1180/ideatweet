@@ -34,7 +34,7 @@ class LinebotController < ApplicationController
           end
           message = [{
             type: 'text',
-            text: "#{Seed.find(seed1_id).content} × #{Seed.find(seed2_id).content} !!\uDBC0\uDC77"
+            text: "#{Seed.find(seed1_id).content} × #{Seed.find(seed2_id).content} !!"
           },{
             type: 'text',
             text: "ナイスアイデア！思いついたアイデアはここからTwitter投稿ボタンですぐにアウトプットしてみよう！→https://ideatweet.herokuapp.com/line?s1=#{seed1_id}&s2=#{seed2_id}"
