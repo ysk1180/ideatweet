@@ -39,14 +39,13 @@ class LinebotController < ApplicationController
             while seed1_id == seed2_id
               seed2_id = rand(last_id) + 1
             end
-            message = {[
+            message = [{
               type: 'text',
               text: "#{Seed.find(seed1_id).content} × #{Seed.find(seed2_id).content} !!"
-            ],[
+            },{
               type: 'text',
               text: "Twitter投稿はこちらから→https://ideatweet.herokuapp.com/twitter/#{Post.last.id}"
-            ]
-            }
+            }]
           end
           client.reply_message(event['replyToken'], message)
         end
