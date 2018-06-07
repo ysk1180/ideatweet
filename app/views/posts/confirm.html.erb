@@ -22,7 +22,7 @@ $(document).on('click', '#twitter_post', function(){
 </div>
 
 <div id="button">
-  <%= link_to "組み合わせを変える", edit_post_path(@post), class: "square_btn" %>
+  <%= link_to "組み合わせを変える", edit_post_path(@post), class: "square_btn", remote: true %>
 </div>
 <br>
 <div>
