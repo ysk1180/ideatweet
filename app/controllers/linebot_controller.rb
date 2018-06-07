@@ -34,7 +34,7 @@ class LinebotController < ApplicationController
           end
           message = {
             type: 'text',
-            text: "『#{Seed.find(seed1_id).content}』 × 『#{Seed.find(seed2_id).content}』 !!"
+            text: "#{Seed.find(seed1_id).content} × #{Seed.find(seed2_id).content} !!"
             # text: event.message['text']
           }
           client.reply_message(event['replyToken'], message)
