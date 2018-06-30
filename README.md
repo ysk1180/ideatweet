@@ -1,24 +1,26 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## サービス名
+アイデアTweet  
+https://ideatweet.herokuapp.com/
 
-Things you may want to cover:
+## 概要
+ランダムに表示される2つのキーワードからアイデアを発想し、画像付きでツイートできるサービス
 
-* Ruby version
+## 想定している利用者
+Twitterで気軽に目立つツイートがしたい方
 
-* System dependencies
+## 技術チュートリアル
+LINE botチュートリアル【初学者向け】 〜Ruby on Railsでアイデアtweetを作ってみよう〜  
+https://note.mu/ysk1180/n/n584b6807e3fb
 
-* Configuration
+## リリース日
+2018年6月3日
 
-* Database creation
+## バージョン
+Ruby：2.5.1  
+Rails：5.2.0  
+PostgreSQL：10.1
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## 作者
+@ysk1180
